@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: tp-docker-hub-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: tp-docker-hub-app
@@ -22,6 +22,13 @@ spec:
           env:
             - name: PORT
               value: "3000"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           readinessProbe:
             httpGet:
               path: /healthz
