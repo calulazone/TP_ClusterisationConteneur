@@ -1,0 +1,37 @@
+# Role restreint pour staging : pas d'exec, pas de secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer-role
+  namespace: app-staging
+  labels:
+    app.kubernetes.io/part-of: demo-app
+rules:
+  - apiGroups: ["", "apps", "networking.k8s.io"]
+    resources:
+      - pods
+      - services
+      - configmaps
+      - endpoints
+    verbs: ["get", "list", "watch"]
+
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - replicasets
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - ingresses
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+  - apiGroups: [""]
+    resources:
+      - services
+    verbs: ["create", "update", "patch", "delete"]
+
+  - apiGroups: [""]
+    resources:
+      - pods/log
+    verbs: ["get", "list"]
